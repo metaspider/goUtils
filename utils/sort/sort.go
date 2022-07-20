@@ -131,7 +131,7 @@ func heapify(arr []int, i, n int) {
 	arr[i] = tmp
 }
 
-func BeapSort(arr []int) []int {
+func HeapSort(arr []int) []int {
 	// 堆排序
 	for i := len(arr) / 2; i >= 0; i-- {
 		heapify(arr, i, len(arr))
@@ -144,9 +144,9 @@ func BeapSort(arr []int) []int {
 }
 
 func CountSort(arr []int) []int {
-	// 计数排序
+	// 计数排序(不支持负数)
 	// 优点: 占用空间少，时间复杂度O(n+k), 空间复杂度O(n+k), 稳定, 可以用于数值范围不大的数组
-	// 缺点: 占用内存大, 时间复杂度高, 只适用于小范围数据, 如0-100, 不支持负数)
+	// 缺点: 占用内存大, 时间复杂度高, 只适用于小范围数据, 如0-100)
 	max := arr[0]
 	for i := 1; i < len(arr); i++ {
 		if arr[i] > max {
@@ -166,4 +166,46 @@ func CountSort(arr []int) []int {
 		count[arr[i]]--
 	}
 	return res
+}
+
+func RadixSoft(arr []int) []int {
+	// 基数排序(不支持负数)
+	// 缺点: 占用内存大, 时间复杂度高, 只适用于小范围数据, 如0-100
+	max := arr[0]
+	for i := 1; i < len(arr); i++ {
+		if arr[i] > max {
+			max = arr[i]
+		}
+	}
+	count := make([]int, 10)
+	for i := 0; i < len(arr); i++ {
+		count[arr[i]%10]++
+	}
+	for i := 1; i < 10; i++ {
+		count[i] += count[i-1]
+	}
+	res := make([]int, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		res[count[arr[i]%10]-1] = arr[i]
+		count[arr[i]%10]--
+	}
+	return res
+}
+
+func BinSort(arr []int) []int {
+	// 二分查找排序
+	// 优点: 时间复杂度O(nlog(n)), 空间复杂度O(1), 稳定
+	for i := 1; i < len(arr); i++ {
+		tmp := arr[i]
+		j := i - 1
+		for ; j >= 0; j-- {
+			if arr[j] > tmp {
+				arr[j+1] = arr[j]
+			} else {
+				break
+			}
+		}
+		arr[j+1] = tmp
+	}
+	return arr
 }
