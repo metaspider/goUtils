@@ -2,12 +2,17 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 	"utils/sort"
 )
 
 func main() {
-	xx := []int{5, 3, 5, 7, 2, 1, 85, 3, 8, 4, 63, 48, 3}
-	xx = sort.QuickSort(xx)
-	xx = (xx)
+	xx := []int{}
+	_rand := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 10; i++ {
+		xx = append(xx, _rand.Intn(20))
+	}
+	xx = sort.CountSort(xx)
 	fmt.Println(xx)
 }
